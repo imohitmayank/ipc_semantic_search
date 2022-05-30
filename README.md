@@ -7,3 +7,6 @@ Steps:
 
 Code:
 - `devganscrap`: Scrapy code to crawl and extract IPC sections and their description from the `devgan.in`
+
+Data Credits:
+- http://devgan.in
