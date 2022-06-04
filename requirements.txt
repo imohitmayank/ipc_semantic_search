@@ -1,1 +1,4 @@
 scrapy==2.6.1
+streamlit
+txtai
+pandas
