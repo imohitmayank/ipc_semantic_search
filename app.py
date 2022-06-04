@@ -4,30 +4,38 @@ import streamlit as st
 from txtai.embeddings import Embeddings
 
 # set config
-st.set_page_config(layout="wide", page_title="IPC Semantic Search")
+st.set_page_config(layout="wide", page_title="⚖️ Law Finder - IPC")
 
 # load the summarization model (cache for faster loading)
 @st.cache(allow_output_mutation=True)
 def load_model_embeddings_data():
-    model = Embeddings({"path": "sentence-transformers/nli-mpnet-base-v2"})
-    embeddings = model.load("embedding")
+    embeddings = Embeddings({"path": "sentence-transformers/nli-mpnet-base-v2"})
+    embeddings.load("embedding")
     df = pd.read_csv("devganscrap/sections_desc.csv")
-    return model, embeddings, df
+    return embeddings, df
 
 # loading the model
-model, embeddings, df = load_model_embeddings_data()
+embeddings, df = load_model_embeddings_data()
 
 # APP
 # set title and subtitle
-st.title("IPC Semantic Search")
-st.markdown("Search the Indian Penal Code Sections with simple english")
+st.title("⚖️ Law Finder - IPC")
+st.markdown("Search the [Indian Penal Code](https://en.wikipedia.org/wiki/Indian_Penal_Code) Sections with simple english.")
+st.markdown("The data scraping procedure is explained in detail on [my website](http://mohitmayank.com/a_lazy_data_science_guide/python/scraping_websites/)")
+st.markdown("The complete code is on [Github](https://github.com/imohitmayank/ipc_semantic_search)")
+
 # create the input text box
 query = st.text_area("Input your search phrase here!", "animal cruelty")
-button = st.button("Find sections..")
+button = st.button("Find sections...")
 
 # if button is clicked
 with st.spinner("Finding the most similar sections...."):
     if button:
-        # find the section
+        # find and display the sections
+        st.markdown("**Sections:**")
+        results = []
         for id, score in embeddings.search(query, limit=5):
-            print(f"Section: {df.loc[id, 'section']}\nDescription: {df.loc[id, 'description']}\n----------\n")
+            st.write({
+                'section': df.loc[id, 'section'],
+                'description': df.loc[id, 'description']
+            })
