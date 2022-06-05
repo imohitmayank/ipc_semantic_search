@@ -6,7 +6,7 @@
 
 **Steps:**
 - Scrap the `devgan.in` website to get the different sections in IPC
-- Use `LegalBERT` to get the embeddings of the descriptions of the IPC sections
+- Use semantic sentence similarity models to get the embeddings of the descriptions of the IPC sections
 - Perform Cosine Similarity to get the nearest matching section wrt query.
 
 **Code:**
